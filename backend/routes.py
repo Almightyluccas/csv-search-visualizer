@@ -6,7 +6,7 @@ from data_processor import fetch_data, search_data_with_cache
 
 router = APIRouter()
 
-dataset_url = 'https://media.githubusercontent.com/media/datablist/sample-csv-files/main/files/offers/offers-1000.csv'
+dataset_url = 'https://raw.githubusercontent.com/jinchen003/Nearabl.Sample.Data/main/us-500.csv'
 initial_data_set = pd.read_csv(dataset_url)
 
 
