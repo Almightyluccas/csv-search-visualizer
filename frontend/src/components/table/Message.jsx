@@ -9,7 +9,7 @@ const Message = ({ searchCriteria, error, darkMode }) => {
         ) : searchCriteria ? (
           `${searchCriteria}`
         ) : (
-          "Welcome to Luccas' CSV visualizer"
+          "Welcome to Luccas' .CSV Viewer"
         )}
       </p>
     </div>

@@ -17,7 +17,6 @@ export const fetchData = async (column = '', value = '') => {
     const response = await api.get('/data/csv/search', {
       params,
     });
-    console.log(response.data.length)
     return response.data;
   } catch (error) {
     console.error('Error fetching data:', error);
