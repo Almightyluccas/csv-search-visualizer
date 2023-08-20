@@ -6,7 +6,10 @@ data_cache = cachetools.TTLCache(maxsize=10000, ttl=3600)
 
 
 def fetch_data(data_set: pd.DataFrame, search_criteria: str, search_parameter: str) -> list[dict[str, str]]:
-    filtered_data = data_set[data_set[search_criteria].astype(str) == search_parameter]
+    search_parameter_lower = search_parameter.lower()
+
+    filtered_data = data_set[data_set[search_criteria].astype(str).str.lower() == search_parameter_lower]
+
     if not filtered_data.empty:
         return filtered_data.to_dict(orient='records')
     return []
