@@ -1,5 +1,5 @@
 import React from 'react';
-import TableView from "./views/TableView";
+import TableView from "./pages/TableView";
 
 const App = () => {
 
