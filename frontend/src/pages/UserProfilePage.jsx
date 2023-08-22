@@ -1,9 +1,9 @@
 import React from 'react';
 
-const UserProfileView = () => {
+const UserProfilePage = ({darkMode}) => {
 
   return (
     <h1>UserProfileView</h1>
   );
 };
-export default UserProfileView;
+export default UserProfilePage;

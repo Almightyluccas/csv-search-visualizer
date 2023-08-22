@@ -1,15 +1,16 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import NavBar from '../components/NavBar';
 import DataTable from '../components/table/DataTable';
 import Message from '../components/table/Message';
 import SearchBar from "../components/table/SearchBar";
 import PaginationButtons from "../components/table/PaginationButtons";
 import RowsPerPage from "../components/table/RowsPerPage";
-import { useDataAndPagination } from '../hooks/TableHooks';
+import { useDataAndPagination} from '../hooks/TableHooks';
 
-const TableView = () => {
+const TablePage = ({darkMode}) => {
   const {
     originalData,
+    setData,
     data,
     columns,
     showOriginal,
@@ -19,56 +20,46 @@ const TableView = () => {
     currentPage,
     itemsPerPage,
     maxVisiblePages,
+    setTotalPages,
     totalPages,
-    darkMode,
     fetchDataFromApi,
     handleCellClick,
     handleSearch,
-    handleNavTableClick,
     handleClickPage,
     handleSkip,
     pageRange,
     handleItemsPerPageChange,
-    handleDarkModeToggle,
   } = useDataAndPagination();
 
+  useEffect(() => {
+  fetchDataFromApi()
+}, []);
+
+
+  useEffect(() => {
+    setTotalPages(Math.ceil(data.length / itemsPerPage));
+    setCurrentPage(1);
+  }, [itemsPerPage, data]);
+
+  const customStyles = {
+    height: '90vh'
+   }
 
   return (
-    <div className={`flex flex-col h-screen ${darkMode ? '' : ''}`}>
-
-      <NavBar
-        onTableClick={handleNavTableClick}
-        showOriginal={showOriginal}
-        columns={columns}
-        darkMode={darkMode}
-      />
-      <div className="p-4">
-        <div className="flex justify-center p-4">
-          <label className="flex items-center space-x-2">
-            <span>Dark Mode</span>
-            <input
-              type="checkbox"
-              checked={darkMode}
-              onChange={handleDarkModeToggle}
-              className="form-checkbox h-5 w-5 text-indigo-600 transition duration-150 ease-in-out"
-            />
-          </label>
-        </div>
-        <Message searchCriteria={searchCriteria} error={error} darkMode={darkMode}/>
-      </div>
-
-
+    <div className={`flex flex-col h-screen ${darkMode ? '' : ''}`} style={customStyles}>
+      <Message searchCriteria={searchCriteria} error={error} darkMode={darkMode} />
       <SearchBar onSearch={handleSearch} columns={columns} darkMode={darkMode}/>
       <div>
         <span>Number of Rows: {data.length}</span>
       </div>
-      <DataTable columns={columns}
-                 data={data}
-                 onCellClick={handleCellClick}
-                 currentPage={currentPage}
-                 itemsPerPage={itemsPerPage}
-                 maxVisiblePages={maxVisiblePages}
-                 darkMode={darkMode}
+      <DataTable
+        columns={columns}
+        data={data}
+        nCellClick={handleCellClick}
+        currentPage={currentPage}
+        itemsPerPage={itemsPerPage}
+        maxVisiblePages={maxVisiblePages}
+        darkMode={darkMode}
       />
       <RowsPerPage
         itemsPerPageValue={itemsPerPage}
@@ -93,4 +84,4 @@ const TableView = () => {
     </div>
   );
 };
-export default TableView;
+export default TablePage;

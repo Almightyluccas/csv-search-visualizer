@@ -10,7 +10,7 @@ const SearchBar = ({ onSearch, columns, darkMode }) => {
   };
 
   return (
-    <div className={`flex items-center justify-center mb-4 ${darkMode ? 'dark:bg-gray-800 dark:text-gray-200' : ''}`}>
+    <div className={`mt-9 flex items-center justify-center mb-4 ${darkMode ? 'dark:bg-gray-800 dark:text-gray-200' : ''}`}>
       <form onSubmit={handleSearchSubmit} className="flex items-center">
         <select
           value={searchCriteria}

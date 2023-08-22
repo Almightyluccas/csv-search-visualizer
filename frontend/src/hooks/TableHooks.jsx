@@ -1,5 +1,6 @@
 import {useState, useEffect, useMemo} from 'react';
-import {fetchData} from "../utils/api";
+import {fetchData, queryData} from "../utils/api";
+
 
 export function useDataAndPagination() {
   const [originalData, setOriginalData] = useState([]);
@@ -12,28 +13,13 @@ export function useDataAndPagination() {
   const [itemsPerPage, setItemsPerPage] = useState(15);
   const [maxVisiblePages, setMaxVisiblePages] = useState(4);
   const [totalPages, setTotalPages] = useState(1);
-  const [darkMode, setDarkMode] = useState(true);
 
-  useEffect(() => {
-    fetchDataFromApi();
-  }, []);
-
-  useEffect(() => {
-    setTotalPages(Math.ceil(data.length / itemsPerPage));
-    setCurrentPage(1);
-  }, [itemsPerPage, data]);
-
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [darkMode]);
+  const csvUrl = sessionStorage.getItem('csvUrl') || 'https://raw.githubusercontent.com/jinchen003/Nearabl.Sample.Data/main/us-500.csv'  ;
 
   const fetchDataFromApi = async () => {
+
     try {
-      const fetchedData = await fetchData();
+      const fetchedData = await fetchData(csvUrl);
       setOriginalData(fetchedData);
       setData(fetchedData);
       setColumns(Object.keys(fetchedData[0]));
@@ -49,7 +35,7 @@ export function useDataAndPagination() {
     }
 
     try {
-      const newData = await fetchData(column, value);
+      const newData = await queryData(csvUrl, column, value);
       setData(newData);
       setSearchCriteria(`Search results for ${column}: ${value}`);
       setCurrentPage(1);
@@ -62,7 +48,7 @@ export function useDataAndPagination() {
 
   const handleSearch = async (value, column) => {
     try {
-      const newData = await fetchData(column, value);
+      const newData = await queryData(csvUrl, column, value);
       setData(newData);
       setSearchCriteria(`Search results for ${column}: ${value}`);
       setShowOriginal(false);
@@ -95,11 +81,9 @@ export function useDataAndPagination() {
     setItemsPerPage(newItemsPerPage);
   };
 
-  const handleDarkModeToggle = () => {
-    setDarkMode(!darkMode);
-  };
   return {
     originalData,
+    setData,
     data,
     columns,
     showOriginal,
@@ -109,8 +93,8 @@ export function useDataAndPagination() {
     currentPage,
     itemsPerPage,
     maxVisiblePages,
+    setTotalPages,
     totalPages,
-    darkMode,
     fetchDataFromApi,
     handleCellClick,
     handleSearch,
@@ -119,6 +103,6 @@ export function useDataAndPagination() {
     handleSkip,
     pageRange,
     handleItemsPerPageChange,
-    handleDarkModeToggle,
+
   };
 }

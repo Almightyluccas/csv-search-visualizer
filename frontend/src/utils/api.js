@@ -7,15 +7,34 @@ const api = axios.create({
   },
 });
 
-export const fetchData = async (column = '', value = '') => {
+export const fetchData = async (data_url) => {
   try {
-    const params = column && value ? {
-      search_criteria: column,
-      search_parameter: value,
-    } : {};
+    const endpoint = '/data/csv/search';
+    const queryParams = {
+      data_url,
+    };
 
-    const response = await api.get('/data/csv/search', {
-      params,
+    const response = await api.get(endpoint, {
+      params: queryParams,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    throw error;
+  }
+};
+
+export const queryData = async (data_url, search_criteria , search_parameter) => {
+  try {
+    const endpoint = '/data/csv/search';
+    const queryParams = {
+      data_url,
+      search_criteria,
+      search_parameter,
+    };
+    const response = await api.get(endpoint, {
+      params: queryParams,
     });
     return response.data;
   } catch (error) {
