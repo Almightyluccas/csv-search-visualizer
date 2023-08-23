@@ -30,7 +30,7 @@ cd csv-search-visualizer
 2. Install Python dependencies:
  ```Bash
 cd backend
-pip install -r requirements.txtr
+pip install -r requirements.txt
 ```
 
 3. Launch the FastAPI backend:
