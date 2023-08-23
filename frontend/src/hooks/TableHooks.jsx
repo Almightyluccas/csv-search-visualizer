@@ -1,6 +1,6 @@
-import {useState, useEffect, useMemo} from 'react';
+import {useState, useMemo} from 'react';
 import {fetchData, queryData} from "../utils/api";
-
+import { useNavigate } from 'react-router-dom';
 
 export function useDataAndPagination() {
   const [originalData, setOriginalData] = useState([]);
@@ -14,8 +14,8 @@ export function useDataAndPagination() {
   const [maxVisiblePages, setMaxVisiblePages] = useState(4);
   const [totalPages, setTotalPages] = useState(1);
 
-  const csvUrl = sessionStorage.getItem('csvUrl') || 'https://raw.githubusercontent.com/jinchen003/Nearabl.Sample.Data/main/us-500.csv'  ;
-
+  const csvUrl = sessionStorage.getItem('csvUrl') || 'https://raw.githubusercontent.com/jinchen003/Nearabl.Sample.Data/main/us-500.csv';
+  const navigate = useNavigate() ;
   const fetchDataFromApi = async () => {
 
     try {
@@ -27,15 +27,34 @@ export function useDataAndPagination() {
       console.error('Error fetching data:', error);
     }
   };
+  const navigateToProfile = (data) => {
+    const singleRowData = data[0];
+    sessionStorage.setItem('singleRowData', JSON.stringify(singleRowData));
+    const userId = `${singleRowData.first_name}_${singleRowData.last_name}`;
+    navigate(`/profile/${userId}`);
+  }
+ const navigateToCompany = (data) => {
+  const singleRowData = data[0];
+  sessionStorage.setItem('singleRowData', JSON.stringify(singleRowData));
+
+  const companyNameWithHyphens = singleRowData.company_name.replace(/\s+/g, '').replace(',','');
+  navigate(`/company/${companyNameWithHyphens}`);
+}
 
 
   const handleCellClick = async (value, column) => {
     if (showOriginal) {
       setShowOriginal(false);
     }
-
     try {
       const newData = await queryData(csvUrl, column, value);
+      if (column === 'company_name') {
+          navigateToCompany(newData)
+          return
+       } else if(newData.length === 1) {
+         navigateToProfile(newData)
+         return
+       }
       setData(newData);
       setSearchCriteria(`Search results for ${column}: ${value}`);
       setCurrentPage(1);
@@ -49,6 +68,14 @@ export function useDataAndPagination() {
   const handleSearch = async (value, column) => {
     try {
       const newData = await queryData(csvUrl, column, value);
+       if (column === 'company_name') {
+          navigateToCompany(newData)
+          return
+       } else if(newData.length === 1) {
+         navigateToProfile(newData)
+         return
+       }
+
       setData(newData);
       setSearchCriteria(`Search results for ${column}: ${value}`);
       setShowOriginal(false);

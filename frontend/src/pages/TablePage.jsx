@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react';
-import NavBar from '../components/NavBar';
 import DataTable from '../components/table/DataTable';
 import Message from '../components/table/Message';
 import SearchBar from "../components/table/SearchBar";
@@ -55,7 +54,7 @@ const TablePage = ({darkMode}) => {
       <DataTable
         columns={columns}
         data={data}
-        nCellClick={handleCellClick}
+        onCellClick={handleCellClick}
         currentPage={currentPage}
         itemsPerPage={itemsPerPage}
         maxVisiblePages={maxVisiblePages}

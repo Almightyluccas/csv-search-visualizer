@@ -28,8 +28,8 @@ function App() {
           <Route path="/" element={<HomePage darkMode={darkMode}/>}/>
           <Route path="/visualization" element={<DataVisualizationPage darkMode={darkMode}/>}/>
           <Route path="/table" element={<TablePage darkMode={darkMode}/>}/>
-          <Route path="/company" element={<CompanyPage darkMode={darkMode}/>}/>
-          <Route path="/profile" element={<UserProfilePage darkMode={darkMode}/>}/>
+          <Route path="/company/:companyName" element={<CompanyPage darkMode={darkMode}/>}/>
+          <Route path="/profile/:userName" element={<UserProfilePage darkMode={darkMode}/>}/>
         </Routes>
     </Router>
   );

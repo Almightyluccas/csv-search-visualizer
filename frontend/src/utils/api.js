@@ -13,7 +13,6 @@ export const fetchData = async (data_url) => {
     const queryParams = {
       data_url,
     };
-
     const response = await api.get(endpoint, {
       params: queryParams,
     });

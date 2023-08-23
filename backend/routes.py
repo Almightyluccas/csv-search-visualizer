@@ -28,7 +28,7 @@ async def search_data_from_csv(
         if search_parameter is None and search_criteria is None:
             return data_set.to_dict(orient='records')
 
-        if search_criteria not in data_set.columns:
+        if search_criteria.lower() not in data_set.columns.str.lower():  # Case-insensitive comparison
             raise InvalidSearchCriteria(search_criteria)
 
         cached_data = search_data_with_cache(data_set, search_criteria, search_parameter)
