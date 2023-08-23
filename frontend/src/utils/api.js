@@ -41,3 +41,18 @@ export const queryData = async (data_url, search_criteria , search_parameter) =>
     throw error;
   }
 };
+
+export const getChoroplethData = async (data_url) => {
+  try {
+    const queryParams = {
+      data_url,
+    };
+    const response = await api.get('/data/csv/interactive-map', {
+      params: queryParams,
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    throw error;
+  }
+};

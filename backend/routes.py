@@ -4,6 +4,7 @@ from typing import Optional
 from fastapi import APIRouter, HTTPException
 from data_processor import fetch_data, search_data_with_cache
 
+
 router = APIRouter()
 
 
@@ -39,3 +40,20 @@ async def search_data_from_csv(
         return fetched_data
     except FileNotFoundError:
         raise HTTPException(status_code=500, detail="Failed to search data. File not found")
+
+
+@router.get('/csv/interactive-map')
+def generate_interactive_map(data_url: str):
+
+    data = pd.read_csv(data_url)
+    state_zip_user_count = data.groupby(["state", "zip"]).size().reset_index(name="user_count")
+
+    state_data = []
+    for state, group in state_zip_user_count.groupby("state"):
+        zip_data = []
+        for index, row in group.iterrows():
+            zip_data.append({"zip": row["zip"], "user_count": row["user_count"]})
+        state_data.append({"state": state, "zip_data": zip_data})
+
+    return {"state_data": state_data}
+
