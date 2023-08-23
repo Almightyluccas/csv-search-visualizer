@@ -25,13 +25,13 @@ const DatasetSelector = ({ darkMode }) => {
           >
             Dataset Provided
           </button>
-          <button
-            onClick={handleOtherDatasetsClick}
-            className={`bg-red-400 hover:bg-red-700 text-white px-8 py-4 rounded-lg w-full 
-            ${darkMode ? 'bg-opacity-70' : ''}`}
-          >
-            Other Datasets / Manual Upload
-          </button>
+          {/*<button*/}
+          {/*  onClick={handleOtherDatasetsClick}*/}
+          {/*  className={`bg-red-400 hover:bg-red-700 text-white px-8 py-4 rounded-lg w-full */}
+          {/*  ${darkMode ? 'bg-opacity-70' : ''}`}*/}
+          {/*>*/}
+          {/*  Other Datasets / Manual Upload*/}
+          {/*</button>*/}
         </div>
       </div>
     </div>
