@@ -23,7 +23,7 @@ Before you begin, make sure you have the following installed:
 
 1. Clone the repository:
  ```Bash
-git clone https://github.com/yourusername/project-name.git
+git clone https://github.com/Almightyluccas/csv-search-visualizer.git
 cd csv-search-visualizer
 ```
 
